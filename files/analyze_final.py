@@ -7,7 +7,12 @@ SQ = {1, 121, 169, 289, 361, 529}
 
 def load_ours():
     rows = {}
-    for fn in ['hard_1e6.csv'] + sorted(glob.glob('hard_seg*.csv')):
+    # the per-segment files (hard_1e6 + hard_seg2..6) were removed in cleanup —
+    # their union is exactly hard_1e7_full.csv (verified row-for-row; git
+    # history @7a4e2b6 has the originals)
+    srcs = (['hard_1e7_full.csv'] if os.path.exists('hard_1e7_full.csv')
+            else ['hard_1e6.csv'] + sorted(glob.glob('hard_seg*.csv')))
+    for fn in srcs:
         if not os.path.exists(fn): continue
         with open(fn) as f:
             for r in csv.DictReader(f):

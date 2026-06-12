@@ -27,10 +27,16 @@ def read_fp(path, fmin=None, fmax=None):
     return rows
 
 def cmd_merge():
+    import os
+    segs = ["hard_1e6.csv", "hard_seg2.csv", "hard_seg3.csv",
+            "hard_seg4.csv", "hard_seg5.csv", "hard_seg6.csv"]
+    if not all(os.path.exists(s) for s in segs):
+        print("segment files were removed in cleanup (git history @7a4e2b6 has them);")
+        print("their verified union is the committed hard_1e7_full.csv — nothing to do")
+        return
     out = []
     seen = set()
-    for path in ["hard_1e6.csv", "hard_seg2.csv", "hard_seg3.csv",
-                 "hard_seg4.csv", "hard_seg5.csv", "hard_seg6.csv"]:
+    for path in segs:
         rows = read_fp(path)
         for t in rows:
             assert t[0] not in seen, f"duplicate prime {t[0]}"

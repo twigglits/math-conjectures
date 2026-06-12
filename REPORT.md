@@ -286,8 +286,10 @@ phase-diagram-located empirical margin — and unproven.
 - `files/fp.cu` (GPU engine, evening session; build: `nvcc -O3 -arch=compute_80 fp.cu -o fpcuda`)
 - `files/verify_lemmas.py` (machine verification of §9; run: `python3 verify_lemmas.py`)
 - `files/analyze_session2.py` (merge / validate / law / octave analyses of §10)
-- `files/hard_1e6.csv`, `files/hard_seg2..6.csv` (our sweep), `files/hard_1e7_full.csv`
-  (merged full class), `files/hard_1e8_2e8.csv` (GPU octave), `files/esc2025_fp_to_3.5e7.csv`
+- `files/hard_1e7_full.csv` (the full 1-mod-24 class to 10⁷; the per-segment sweep
+  files hard_1e6 + hard_seg2..6 were removed in the 2026-06-12 cleanup — their union
+  equals this file row-for-row, originals in git history @7a4e2b6),
+  `files/hard_1e8_2e8.csv` (GPU octave), `files/esc2025_fp_to_3.5e7.csv`
 - External: arXiv:2509.00128 + github.com/esc-paper/erdos-straus; Bradford, INTEGERS 25 (2025) #A54;
   Elsholtz–Tao, J. Aust. Math. Soc. 94 (2013) 50–105 (arXiv:1107.1010); Salez arXiv:1406.6307;
   Pomerance–Weingartner, arXiv:2511.16817; Bright–Loughran (no Brauer–Manin obstruction, 2020);
