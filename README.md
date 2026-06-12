@@ -203,6 +203,48 @@ grading, evenness, windows, strata — in which the original difficulty becomes
 geometrically visible: everything hard about Erdős–Straus is the statement that the
 positive window always gets its share.
 
+## Repository file tree
+
+```text
+.
+├── README.md                     this file
+├── REPORT.md                     the full study (§0–§12)
+├── TRANSCRIPT.md                 original phone-session log that started it
+├── LICENSE
+├── files/                        engines, analyses, datasets, figures
+│   ├── fp.c                      f(p) counter — C reference
+│   ├── fpr.rs                    f(p) counter — Rust (multi-threaded, std-only)
+│   ├── fp.cu                     f(p) counter — CUDA
+│   ├── fsigned.c                 signed graded-census engine (§11)
+│   ├── census_ref.py             Python reference for the signed census
+│   ├── verify_lemmas.py          machine verification of §9
+│   ├── verify_signed.py          machine verification of §11
+│   ├── residual_spectrum.py      §12 spectrum
+│   ├── target_frontier.py        §12 adversarial targeting score
+│   ├── analyze_final.py          analyses
+│   ├── analyze_session2.py
+│   ├── analyze_signed.py
+│   ├── plot_types.py             figure generators
+│   ├── plot_residual.py
+│   ├── run_segments.sh           segmented sweep driver
+│   ├── residual_effects.json
+│   ├── plots/                    the figure atlas (1–7, PNG)
+│   └── *.csv                     datasets (per-prime counts; graded census)
+├── prime_solutions/              Rust/CUDA crate (cuda-oxide)
+│   ├── Cargo.toml
+│   ├── Cargo.lock
+│   ├── rust-toolchain.toml       pinned nightly
+│   └── src/main.rs
+└── bend/                         HVM/Bend port experiment
+    ├── fp.bend
+    ├── test.bend
+    ├── temp_test.bend
+    └── instructions_bend_run.md
+```
+
+(Build artifacts — `target/`, compiled binaries, transient run output — are
+git-ignored and not shown; see `.gitignore`.)
+
 ## Repository map
 
 | Path | What it is |
