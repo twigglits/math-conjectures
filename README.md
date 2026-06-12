@@ -141,6 +141,8 @@ Code: `files/verify_signed.py`, `files/fsigned.c`, `files/census_ref.py`,
 `files/analyze_signed.py`; data `files/signed_*.csv`; figures
 `files/plots/3_seesaw.png`, `files/plots/4_strata.png`.
 
+![The chirality see-saw](files/plots/3_seesaw.png)
+
 **F6 — Inside the residual: 58% ladder, 42% factorization (REPORT §12.1–12.3).**
 After removing the window trend and mod-840 fingerprint, the residues p mod q still
 predict ln f at every prime modulus q ≤ 199, non-residue side richer — Theorem F's
