@@ -219,6 +219,73 @@ positive window always gets its share.
 Build/run commands are in REPORT §8, §11.9, §12.7. (Plotting note: on this machine
 run plot scripts with `PYTHONNOUSERSITE=1` — see `files/plot_types.py` header.)
 
+## Usage
+
+If you clone this repo and want to reproduce the outputs, here is what each part
+needs. Every engine is self-contained — full build/run notes live in the header
+comment of each source file.
+
+### Prerequisites
+
+| Tool | Used for | Install (Debian/Ubuntu) |
+|---|---|---|
+| C compiler (`gcc`, OpenMP) | `files/fp.c`, `files/fsigned.c` | `sudo apt install build-essential` |
+| Python ≥ 3.8 | all `files/*.py` analyses & verification | `sudo apt install python3 python3-pip` |
+| `numpy`, `matplotlib` | the plotting / spectrum scripts only | `pip install numpy matplotlib` |
+| Rust (nightly) | `files/fpr.rs`, `prime_solutions/` | [rustup.rs](https://rustup.rs) |
+| CUDA toolkit (`nvcc`) | `files/fp.cu` (needs an NVIDIA GPU) | NVIDIA CUDA Toolkit ≥ 12.0 |
+
+Only Python (with `numpy`/`matplotlib`) is needed to re-run the analyses and
+regenerate the figures from the CSVs already in the repo. The C/Rust/CUDA engines
+are only needed to regenerate the raw per-prime datasets themselves.
+
+The Python scripts depend solely on the standard library plus `numpy` and
+`matplotlib`; there is no `requirements.txt`, so:
+
+```bash
+pip install numpy matplotlib
+```
+
+### Positive-world solution counter f(p)
+
+```bash
+# C (single-threaded reference)
+gcc -O3 -march=native files/fp.c -o files/fp
+./files/fp 5 2000 0 fp_small.csv          # pmin pmax mode(0=all,1=p≡1 mod24) out.csv
+
+# Rust (multi-threaded, std-only — no crates)
+rustc -C opt-level=3 -C target-cpu=native files/fpr.rs -o files/fpr
+./files/fpr 5 2000 0 rs_small.csv 4        # ...last arg = threads
+diff rs_small.csv fp_small.csv             # must be empty
+
+# CUDA (needs an NVIDIA GPU)
+nvcc -O3 -arch=compute_80 files/fp.cu -o files/fpcuda
+./files/fpcuda 5 2000 0 cuda_small.csv
+```
+
+### Signed-world graded census (REPORT §11)
+
+```bash
+gcc -O3 -march=native -fopenmp files/fsigned.c -o files/fsigned
+./files/fsigned 2 200 all > census.csv     # LO HI all|pMOD:R
+```
+
+### Analyses, verification, and figures
+
+```bash
+# machine verification of the proof attempts (§9 / §11)
+python3 files/verify_lemmas.py
+python3 files/verify_signed.py
+
+# regenerate the figure atlas (files/plots/1–7) from the CSVs
+PYTHONNOUSERSITE=1 python3 files/plot_types.py
+PYTHONNOUSERSITE=1 python3 files/plot_residual.py
+PYTHONNOUSERSITE=1 python3 files/residual_spectrum.py
+```
+
+(`PYTHONNOUSERSITE=1` is only needed on machines where a user-site install
+shadows the venv `matplotlib` — see the `files/plot_types.py` header.)
+
 ## Status
 
 **The Erdős–Straus conjecture is open.** Nothing here proves or disproves it — §9
