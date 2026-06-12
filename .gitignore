@@ -19,3 +19,19 @@ target
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+# local binaries (regenerable; see REPORT.md §8 for build commands)
+files/fp
+files/fpr
+files/fpcuda
+bend/.out.hvm
+
+# generated LLVM IR (cargo build artifacts)
+prime_solutions/*.ll
+
+# transient run output and validation scratch
+*.partial
+files/err_*.log
+files/cuda_*.csv
+files/got_*.csv
+files/ref_*.csv
