@@ -254,7 +254,7 @@ to be structural, and they reorganize the whole problem:
 5. **The chirality of the obstruction, and the see-saw.** The Jacobi-symbol
    obstruction that makes the conjecture hard kills only the positive windows
    (Lemma K); the same arithmetic that empties a prime's positive window fills its
-   negative ones — measured as $\operatorname{corr}(\tilde f_0, \tilde f_1) = -0.43$
+   negative ones — measured as $\mathrm{corr}(\tilde f_0, \tilde f_1) = -0.43$
    overall and $-0.22$ within residue classes. The hard classes are not poor; they
    are *polarized*.
 
