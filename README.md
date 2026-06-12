@@ -60,13 +60,13 @@ denominators, the negative-$n$ axis is an exact mirror, the square obstruction
 lives only in the positive-sign sector, and the "starved" hard classes are the
 *richest* in one-negative solutions (rank correlation $-0.43$; the record prime
 $p = 2521$ has $9$ positive solutions and $684$ signed ones). Finally, the
-lognormal residual itself decomposes: ${\approx}58\%$ is a congruence ladder obeying
+lognormal residual itself decomposes: $\approx$58% is a congruence ladder obeying
 a measured decay law $s_q \approx 18\cdot q^{-1.95}$ (non-residues richer at every
-modulus, as the obstruction theory predicts), ${\approx}42\%$ is factorization
-noise — and the maximally hostile congruence configuration reaches only $10\%$ of
+modulus, as the obstruction theory predicts), $\approx$42% is factorization
+noise — and the maximally hostile congruence configuration reaches only 10% of
 the depth a counterexample needs. A congruence-only score built from the ladder
 ranks the $f$-landscape at $10\times$ its fitting range ($\rho \approx +0.72$) and
-locates window floors for ${\sim}1\%$ of sweep cost — an instrument for adversarial
+locates window floors for $\sim$1% of sweep cost — an instrument for adversarial
 searches at scales where exhaustion is impossible.
 
 None of this proves or disproves the conjecture — the project's own theorems
@@ -187,14 +187,14 @@ figures `files/plots/3_seesaw.png`, `files/plots/4_strata.png`.
 
 <div align="justify">
 
-**F6 — Inside the residual: $58\%$ ladder, $42\%$ factorization (REPORT §12.1–12.3).**
+**F6 — Inside the residual: 58% ladder, 42% factorization (REPORT §12.1–12.3).**
 After removing the window trend and mod-$840$ fingerprint, the residues $p \bmod q$
 still predict $\ln f$ at every prime modulus $q \le 199$, non-residue side richer —
 Theorem F's sign at every modulus — with measured decay
-$s_q \approx 18\cdot q^{-1.95}$ and out-of-sample saturation at ${\approx}58\%$ of
+$s_q \approx 18\cdot q^{-1.95}$ and out-of-sample saturation at $\approx$58% of
 the variance. The
-remaining ${\approx}42\%$ carries the factorization statistics of the shifted
-integers $4pm+1$. Maximally hostile congruence reaches only **$10\%$** of the depth
+remaining $\approx$42% carries the factorization statistics of the shifted
+integers $4pm+1$. Maximally hostile congruence reaches only **10%** of the depth
 a counterexample needs ($\Delta\ln f = -0.66$ of $-6.41$): a counterexample would
 have to be a large-prime factorization conspiracy, not a congruence event. Code:
 `files/residual_spectrum.py` (writes `files/residual_effects.json`); figure
@@ -207,10 +207,10 @@ have to be a large-prime factorization conspiracy, not a congruence event. Code:
 **F7 — The adversarial frontier (REPORT §12.4–12.5).**
 A congruence-only score fitted at $\le 2\times10^{8}$ ranks $f$ at $10^{9}$ and
 $2\times10^{9}$ with Spearman $\approx +0.72$ and finds window floors from within
-its predicted bottom-$1\%$ — at $2\times10^{9}$ it found the exact floor
-($f = 405$ at $p = 2{,}004{,}535{,}009 \equiv 13^2 \pmod{840}$) for ${\sim}1\%$ of
+its predicted bottom-1% — at $2\times10^{9}$ it found the exact floor
+($f = 405$ at $p = 2{,}004{,}535{,}009 \equiv 13^2 \pmod{840}$) for $\sim$1% of
 the sweep cost. This is the search instrument for ranges beyond $10^{18}$ where
-exhaustive verification is impossible; its honest limit: the unexplained $42\%$
+exhaustive verification is impossible; its honest limit: the unexplained 42%
 decides individual primes, so targeting compresses a search but only enumeration
 certifies. Code: `files/target_frontier.py`, `files/plot_residual.py`.
 
@@ -417,7 +417,7 @@ the venv `matplotlib` — see the `files/plot_types.py` header.)
 
 **The Erdős–Straus conjecture is open.** Nothing here proves or disproves it — §9
 and §12 prove, inside this project's own framework, that identity/covering/channel
-methods cannot, and quantify how far congruence structure alone can reach ($10\%$ of
+methods cannot, and quantify how far congruence structure alone can reach (10% of
 a counterexample). Open directions logged at the end of REPORT §12: fold
 factorization features into the targeting score, the second moment of the window
 split, a $10^{10}$ probe (requires auditing the CUDA engine's 64-bit arithmetic),
