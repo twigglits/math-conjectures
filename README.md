@@ -442,13 +442,13 @@ OEIS submission of the signed sequences, Lean formalization of Lemma D.
 - A. Schinzel, *On sums of three unit fractions with polynomial denominators*,
   Funct. Approx. Comment. Math. 28 (2000) 187–194
 - S. E. Salez, *The Erdős–Straus conjecture: new modular equations and checking up
-  to $N = 10^{17}$* (2014) — <https://arxiv.org/abs/1406.6307>
+  to N = 10¹⁷* (2014) — <https://arxiv.org/abs/1406.6307>
 - M. Spiridon, B. C. Dumitru, *Further verification and empirical evidence for the
   Erdős–Straus conjecture* (2025, preprint; the external $f(p)$ dataset
   cross-validated here) — <https://arxiv.org/abs/2509.00128>
 - C. Pomerance, A. Weingartner, *Exceptions to the Erdős–Straus–Schinzel conjecture*
   (2025) — <https://arxiv.org/abs/2511.16817>
-- J. H. Jaroma, *On expanding $4/n$ into three Egyptian fractions*, Crux
+- J. H. Jaroma, *On expanding 4/n into three Egyptian fractions*, Crux
   Mathematicorum 30 (2004) 36–37 — the documented trace of the signed variant
 - T. Bloom, C. Elsholtz, *Egyptian Fractions* (survey, 2022) —
   <https://arxiv.org/abs/2210.04496>
