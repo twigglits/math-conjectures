@@ -920,6 +920,7 @@ between those two sentences is the conjecture.
   `gcc -O3 -march=native -fopenmp fsigned.c -o fsigned`; usage in header)
 - `files/census_ref.py` — Python reference implementation for C validation
 - `files/analyze_signed.py` — all §11.7 numbers (stdlib only)
+- `files/plot_types.py` — the visual atlas (files/plots/1–5; run with `PYTHONNOUSERSITE=1`)
 - `files/signed_census_1e4.csv`, `files/signed_p24_to_6e5.csv`,
   `files/signed_floor_exemplars.csv` — the datasets behind F1–F6
 - Literature for §11: Jaroma, Crux Mathematicorum 30 (2004) 36–37; Wikipedia
