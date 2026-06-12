@@ -46,8 +46,8 @@ consequences predicted the minima of three then-uncomputed ranges blind
 ($\min f = 191 \in [175, 225]$ at $2\times10^{8}$; $347$ vs $345$ at $10^{9}$;
 median $681$ exact and $\min f = 405$ vs $[351, 404]$ at $2\times10^{9}$). A
 machine-verified proof-attempt section re-derives the square obstruction in full,
-proves an $\varepsilon$-covering theorem (identity families can approach but never
-reach full coverage, at cost $T \approx \exp(\varepsilon^{-2})$) and a
+proves an $\varepsilon$-covering theorem — identity families can approach but never
+reach full coverage, at cost $T \approx \exp(\varepsilon^{-2})$ — and a
 no-finite-channel-system theorem, locating the precise wall: a pointwise lower
 bound for divisors of shifted integers in prescribed residue classes, available
 today only on average.
