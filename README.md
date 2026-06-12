@@ -1,4 +1,4 @@
-# math-conjectures — an experimental program on the Erdős–Straus conjecture
+# Erdős-Straus conjecture: An experimental expansion approach
 
 This repository is an effort towards a solution of the **Erdős–Straus conjecture**
 (Erdős & Straus, 1948) — by exhaustive computation, machine-verified proof attempts,
