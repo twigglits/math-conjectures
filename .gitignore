@@ -35,3 +35,4 @@ files/err_*.log
 files/cuda_*.csv
 files/got_*.csv
 files/ref_*.csv
+files/fsigned

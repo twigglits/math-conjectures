@@ -29,6 +29,18 @@ GPU engine that took the frontier to 2×10⁸ — **where last session's blind p
 min f ∈ [175, 225] was confirmed at min f = 191.** The conjecture remains open; the reason
 it must, is now proved inside this project's own framework.
 
+**Second addendum (§11, 2026-06-12): the signed extension — Erdős–Straus over ℤ.** Five
+new machine-verified results: two signed unit fractions always suffice, with exactly
+complementary failure sets (Theorem G); the kernel's divisor classes survive verbatim and
+the sign grading is pure window-position (Lemma H); the negative domain is an exact mirror
+(Theorem J); the square obstruction is chiral — it lives only in the positive windows
+(Lemma K); and no channel system can flip chirality (Corollary L). Plus the first graded
+census (to 6×10⁵): the §10.2 law **inverts** in the signed sector — f₁ window minima land
+in the square classes 0/7 — corr(f₀, f₁) = −0.43, and the record prime reads
+f̃(2521) = (9, 377, 307). **Channel starvation is displacement of solution mass into the
+other chirality, not absence.** The wall of §9 is now mapped: it stands entirely inside
+one sign sector.
+
 ## 1. Provenance and validation (all checks passed, zero discrepancies)
 
 | Check | Result |
@@ -569,3 +581,350 @@ The f(p) landscape is, to the precision this project can measure, a *determinist
 rising, relatively tightening* lognormal sheet whose lowest points are pure order
 statistics in the six channel-starved classes — with not a single anomalous prime in
 263,982 computed across 73 → 1.01×10⁹.
+
+---
+
+# Session addendum (2026-06-12): the signed extension — Erdős–Straus over ℤ
+
+Goal of this session, as set: *bring negative integers into the conjecture; see what
+pattern it extends to in the negative integer domain, and whether the different angle
+opens a route to proving or disproving it.* This section is the answer. Every numbered
+claim is machine-verified by `files/verify_signed.py` (536,988 exact-arithmetic
+assertions) and the validated engine `files/fsigned.c`.
+
+## 11. Erdős–Straus over ℤ: the conjecture is a chirality statement
+
+### 11.0 Honest headline
+
+1. Over ℤ* = ℤ∖{0} the problem **collapses**: *two* signed unit fractions already
+   suffice for every 4/n (Theorem G) — and the failure sets of the two possible
+   2-term forms are exactly complementary: the sum-form fails precisely on the
+   class containing every ESC-hard prime, the difference-form fails precisely on
+   primes ≡ 3 (mod 4) (the ESC-easy ones). The hardness does not dissolve — **it
+   swaps sides under a sign flip.**
+2. The §9.1 kernel survives verbatim (Lemma H): same divisor classes
+   d ≡ −B (mod 4x−n), and the grade of a solution (0, 1, or 2 negative
+   denominators) is purely the *window* the divisor lands in. ESC = "some divisor
+   lands in the positive window" — positivity is geometry inside the class, not a
+   new equation.
+3. The square obstruction — the proved reason (§9.4–9.5) no covering/identity/circle
+   method can settle ESC — **is chiral** (Lemma K): at odd squares the Jacobi
+   contradiction kills only the positive windows; the negative windows of the very
+   same residue classes are populated. Class-wide *signed* identities exist on every
+   square class (impossible for positive ones, Theorem F).
+4. Negative n is an exact mirror (Theorem J): f̃ₖ(−n) = f̃₃₋ₖ(n). The negative
+   half-line adds no new conjecture; the new content of ℤ is the *grading between
+   the chiralities* — and it measures something: the graded census to 6×10⁵ shows
+   the six square classes, starved in f₀ (the §10.2 law), are the **richest** classes
+   in f₁, with window minima landing in them 7/7 for f₀ and 0/7 for f₁, and a
+   within-window rank correlation corr(f₀, f₁) = −0.43. **Channel starvation is not
+   a deficit of solutions; it is a displacement of solution mass into the other
+   chirality.** The record prime: f̃(2521) = (9, 377, 307).
+5. The angle cannot prove ESC (Corollary L: no channel system can flip chirality —
+   one line from Theorem F), and it cannot disprove it (signed counts certify
+   nothing about f₀ = 0). What it delivers is the sharpest statement yet, in this
+   project's own framework, of *what* ESC is: a window-equidistribution claim for
+   divisors in residue classes, with the obstruction theory localized entirely in
+   one sign sector.
+
+### 11.1 Setting (definitions used throughout)
+
+For n ∈ ℤ*, let S(n) = multisets {x,y,z} ⊂ ℤ* with 1/x + 1/y + 1/z = 4/n. A triple
+containing a cancelling pair {t, −t} forces the third member to equal n/4: such
+**trivial triples** exist iff 4 | n and form the unique infinite family
+{t, −t, n/4}. S̃(n) excludes them; everything below counts S̃. Grade k = number of
+negative members; f̃ₖ(n) = #{s ∈ S̃(n) : grade k}; F̃ = Σ f̃ₖ. For n > 0 only
+k ∈ {0,1,2} occur, and f̃₀ = f, the classical unordered count of §1–§10 (= OEIS
+A192787 convention; Elsholtz–Tao's ordered f is A292581). F̃(n) < ∞ always: some
+member has |t| ≤ 3n/4 (else |Σ1/xᵢ| < 4/n), and the remaining pair is determined by
+a divisor of a fixed square through (ay−b)(az−b) = b². [Machine: S3, S4.]
+
+### 11.2 Two signed unit fractions always suffice (Theorem G)
+
+**Theorem G.** Let n ≥ 2. (i) 4/n = 1/x + 1/y with x, y > 0 is solvable iff n² has a
+divisor d ≡ −n (mod 4); the failure set is exactly
+   A = { n ≡ 1 (mod 4) : every prime factor of n is ≡ 1 (mod 4) } —
+in particular every prime p ≡ 1 (mod 4). (ii) 4/n = 1/x − 1/y (x, y > 0) is solvable
+iff n² has a divisor u ≡ n (mod 4) with u < n; the failure set is exactly
+   B = {2, 4} ∪ { primes ≡ 3 (mod 4) }.
+(iii) A ∩ B = ∅. Hence **every** 4/n, n ≥ 2, is a sum of two signed unit fractions —
+ESC's "three" is an artifact of positivity.
+
+*Proof.* (i) 4xy = n(x+y) ⟺ (4x−n)(4y−n) = n². Both factors negative would force
+x, y < n/4, i.e. 1/x + 1/y > 8/n: impossible. So d = 4x−n > 0, d | n², d ≡ −n (mod 4),
+and conversely each such d gives x = (n+d)/4, y = (n + n²/d)/4 (the partner lies in
+the right class mod 4 in every case n odd / 2‖n / 4|n). Failure: for odd n all
+divisors of n² are products of odd primes; a divisor ≡ 3 (mod 4) exists iff some
+prime ≡ 3 (mod 4) divides n; for n ≡ 3 (mod 4) take d = 1. For n ≡ 2 (mod 4),
+d = 2 works (x = (n+2)/4 ∈ ℤ, y = m(m+1)/2 with m = n/2); for 4 | n, d = n works
+(x = y = n/2). (ii) 4/n = 1/x − 1/y ⟺ (n−4x)(n+4y) = n², u = n−4x ∈ (0, n) since
+1/x > 4/n, v = n + 4y > n. Conversely u | n², u ≡ n (mod 4), 0 < u < n gives
+x = (n−u)/4 ≥ 1, y = (n²/u − n)/4 ≥ 1. Failure: n ≡ 1 (mod 4): u = 1 always works.
+n ≡ 3 (mod 4): need u ≡ 3 (mod 4), u | n², 1 ≤ u < n; for prime p the divisors
+1, p, p² leave nothing (< p and ≡ 3); composite n ≡ 3 (mod 4) has a prime factor
+q ≡ 3 (mod 4) with q < n. n ≡ 2 (mod 4): u = 2 works for n ≥ 6, nothing for n = 2.
+4 | n: u = 4 works for n ≥ 8 (y = k(k−1), k = n/4), nothing for n = 4.
+(iii) A consists of n ≡ 1 (mod 4); B of even n and n ≡ 3 (mod 4). ∎
+[Machine: S2 — exhaustive to 2000 against the actual solution sets, both
+divisor-criterion forms; explicit witnesses to 10⁶. The mod-4 duality at primes:
+p ≡ 1 (mod 4): only the *signed* form exists, 4/p = 1/((p−1)/4) − 1/(p(p−1)/4);
+p ≡ 3 (mod 4): only the *positive* form, 4/p = 1/((p+1)/4) + 1/(p(p+1)/4).]
+
+**Remark (how trivial the signed problem is).** Nearest-integer greedy gives ≤ 3
+signed terms for every 4/n in one step of case analysis, and for the general
+Schinzel numerator: k/n with n ≥ k/2 needs at most ⌊log₂ k⌋ + 1 signed unit
+fractions (halving recursion |kx−n| ≤ k/2) — the entire k/n landscape, where in
+positive integers even the *existence* of a threshold n_k is delicate and
+exceptions provably persist to exp(k^{1/3−ε}) (Pomerance–Weingartner 2025, §7a),
+collapses to logarithmic length over ℤ*. Positivity is the entire subject.
+[Machine: S6.]
+
+**Three-term graded existence.** f̃₁(n) ≥ 1 for every n ≥ 3 **except exactly
+n ∈ {2, 4}** (and f̃₁(2) = f̃₂(2) = 0 makes n = 2 the unique signless point:
+F̃(2) = f(2) = 1). Per-class polynomial witnesses, each verified to 10⁶: the all-odd
+identity 4/n = 1/((n−1)/2) + 1/((n+1)/2) − 1/(n(n−1)(n+1)/4) (Jaroma 2004 — the one
+documented trace of the signed variant in the literature, cited by Wikipedia's
+"Negative-number solutions" section); the modulus-1 family below; twisted sum-forms
+for even n. [Machine: S5.]
+
+### 11.3 The signed kernel (Lemma H): same classes, new windows
+
+**Lemma H.** Let n ≥ 2, and let x be the least positive denominator of a
+solution (grades 0, 1) or its unique positive denominator (grade 2); a = 4x − n,
+B = nx, dmin = 2x(2x − n). Then S̃(n) is in bijection with the divisors d of B²
+(both signs) satisfying d ≡ −B (mod |a|) — plus exact integrality of the partner
+slot when gcd(a, B) > 1, a case absent at primes (§9.1) — through
+y = (B+d)/a, z = (B + B²/d)/a, graded **purely by the window d lies in**:
+
+| grade | x-range | window for d |
+|---|---|---|
+| 0 | n/4 < x ≤ 3n/4 | max(1, dmin) ≤ d ≤ B |
+| 1 | n/4 < x ≤ n/2 | dmin ≤ d ≤ −1 |
+| 1 | 1 ≤ x < n/4 | d ≤ dmin (< −B) |
+| 2 | 1 ≤ x < n/4 | 1 ≤ d ≤ B |
+
+*Proof sketch.* The pair equation (a·u − B)(a·v − B) = B² is §9.1's, with signs kept.
+The inequalities y ≥ x ⟺ d ≥ dmin (a > 0) resp. d ≤ dmin (a < 0), and the sign
+pattern of the two slots as a function of d's position relative to (−B, 0), give the
+table; each multiset is reached from exactly one (x, d). x-ranges: grade 0 needs
+1/x < 4/n ≤ 3/x; grade 1 needs 2/x ≥ 1/x + 1/y > 4/n; grade 2 needs 1/x > 4/n. ∎
+[Machine: S3 — the table reproduces an independent naive census *exactly, grade by
+grade and triple by triple*, for all 2 ≤ n ≤ 200; the C engine is byte-identical to
+the Python dictionary on [2,300] and reproduces f, f_I, f_II of the blessed 10⁷
+dataset on all 385 primes ≡ 1 (mod 24) below 3×10⁴, and f(1009) = 19,
+f(2521) = 9 = 6+3.]
+
+**The classical equation never changed.** Positive solutions are the d ∈ [dmin, B]
+slice of the same divisor classes that, for d < 0, encode the signed solutions. ESC
+states: *some class hits its positive window.* All size/positivity content of the
+conjecture is the location of ~B-length windows inside divisor classes mod a.
+
+**Type III.** At a prime p, ν_p(d) ∈ {0, 1, 2} stratifies solutions; the positive
+windows admit only ν = 0 (Type I) and ν = 1 (Type II) — ν = 2 forces d ≥ p² > B,
+impossible there (asserted at runtime by the engine, every run) — but the grade-1
+big window |d| ≤ B² admits **ν = 2: Type III**, a third mechanism with no positive
+analogue, in which p divides the *second positive* denominator and not the negative
+one. The modulus-1 family is Type III: x = (n−1)/4 gives a = −1 (every divisor
+qualifies) and d = −B² yields
+   4/n = 1/x + 1/(B²−B) − 1/(B−1),  B = nx,  for all n ≡ 1 (mod 4).
+At the record prime, f̃₁(2521) = 377 splits I/II/III = 115/85/177: the forbidden
+stratum is the largest. [Machine: S5, S7, S8.]
+
+### 11.4 The square obstruction is chiral (Lemma K)
+
+**Lemma K.** Let n = c² (c odd ≥ 3) and let x give a coprime row (gcd(a, nx) = 1,
+a = 4x − n ≡ 3 (mod 4)). Lemma D proved the positive pure strata empty: the class
+requires Jacobi sign (d/a) = (−1/a) = −1 while every positive divisor built from x²
+forces (d/a) = +1. For **negative** d the same two facts give
+(d/a) = (−1/a)(|d|/a) = (−1)(+1) = −1 — *equal to the required sign*. The
+obstruction vanishes on the negative windows; and they are in fact populated at
+every odd square: the modulus-1 family lands there (n ≡ 1 mod 4 includes all odd
+squares), and exhaustively for c = 3..15 the coprime rows carry 9–358 signed
+solutions against *zero* positive pure-stratum ones. ∎ [Machine: S7 — including
+3000 random Jacobi-sign instances and the exhaustive c ≤ 15 sweep.]
+
+So the precise object that §9 proved makes ESC unprovable by identities — squares
+impersonating primes inside every residue class — **only impersonates them on one
+side of zero.** Squares are not arithmetically starved; they are *chirally
+polarized*: all their coprime-stratum solution mass sits in the signed sector. The
+known qualitative remark that positivity "is essential to the difficulty"
+(Wikipedia, after Jaroma) becomes a theorem about exactly which window the Jacobi
+obstruction occupies.
+
+### 11.5 Why the angle still cannot prove ESC (Corollary L) — and what it buys
+
+**Corollary L (no chirality flip).** There is no channel — in the sense of
+Theorem F: a rule valid on a residue class, producing coprime-stratum positive
+solutions — that converts the (always-available: Theorem G, Lemma K) signed
+solutions into positive ones on any class containing squares. *Proof:* composed
+with the class-wide signed identities, it would be a Theorem-F channel; Theorem F
+forbids those. ∎ At odd squares the impossibility is absolute: the source set is
+populated, the target set is *empty* (Lemma D). The signed world's class-wide
+identities — which cover every hard class, e.g. the modulus-1 family on all of
+n ≡ 1 (mod 4) — are provably non-transportable. Any proof of ESC routed through
+signed solutions must use primality beyond congruence data, exactly the §9.7 wall.
+
+The decomposition that remains is f̃₀ = F̃ − f̃₁ − f̃₂ with each term a divisor-class
+count in explicit windows (Lemma H). Lower-bounding F̃ is plausibly tractable on
+average (no interval constraints), but converting it to a pointwise statement about
+f̃₀ needs pointwise control of f̃₁ + f̃₂ — the same species of bound Elsholtz–Tao
+declare beyond current methods even at the second moment (Remark 1.3). The program
+transmutes the difficulty; it does not remove it. What is genuinely new and usable:
+ESC restated as **window equidistribution** (does every prime's positive window get
+its share of the class?), plus the measurables below — share ρ = f̃₀/F̃, the
+anticorrelation structure, the Type III stratum — quantities a future analytic
+attack can be tested against, and that did not exist as data before today.
+
+### 11.6 The negative integer domain itself (Theorem J)
+
+**Theorem J (mirror).** Negation (x,y,z) ↦ (−x,−y,−z) is a bijection
+S̃(n) → S̃(−n) sending grade k to 3−k. Hence f̃ₖ(−n) = f̃₃₋ₖ(n), F̃(−n) = F̃(n)
+(F̃ is an *even* function on ℤ*), and for n ≤ −2: 4/n is a sum of three negative
+unit fractions iff ESC holds for |n|. ∎ [Machine: S4.]
+
+The direct answer to "what pattern does the conjecture extend to in the negative
+domain": **the mirror image, exactly — and nothing else.** There is no new
+conjecture on the negative axis; ESC over ℤ is the statement that the even function
+F̃ keeps its grade-0 component positive on one side (equivalently, by the mirror,
+its grade-3 component on the other). The genuinely new territory the extension
+opens is not n < 0 but the mixed-sign grades at n > 0. The census of the boundary
+(trivial family flagged; n = ±1 have F̃ = 0 since |Σ| ≤ 3 < 4):
+
+|  n  | f̃₀ | f̃₁ | f̃₂ | f̃₃ |  F̃ |   |  n | f̃₀ | f̃₁ | f̃₂ | f̃₃ |  F̃ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| −2 | 0 | 0 | 0 | 1 | 1 | | 2 | 1 | 0 | 0 | 0 | 1 |
+| −3 | 0 | 0 | 1 | 3 | 4 | | 3 | 3 | 1 | 0 | 0 | 4 |
+| −4 | 0 | 0 | 0 | 3 | 3* | | 4 | 3 | 0 | 0 | 0 | 3* |
+| −5 | 0 | 2 | 3 | 2 | 7 | | 5 | 2 | 3 | 2 | 0 | 7 |
+| −6 | 0 | 2 | 5 | 8 | 15 | | 6 | 8 | 5 | 2 | 0 | 15 |
+| −7 | 0 | 0 | 6 | 7 | 13 | | 7 | 7 | 6 | 0 | 0 | 13 |
+| −8 | 0 | 2 | 3 | 10 | 15* | | 8 | 10 | 3 | 2 | 0 | 15* |
+| −9 | 0 | 9 | 11 | 6 | 26 | | 9 | 6 | 11 | 9 | 0 | 26 |
+| −10 | 0 | 6 | 11 | 12 | 29 | | 10 | 12 | 11 | 6 | 0 | 29 |
+| −11 | 0 | 2 | 8 | 9 | 19 | | 11 | 9 | 8 | 2 | 0 | 19 |
+| −12 | 0 | 7 | 12 | 21 | 40* | | 12 | 21 | 12 | 7 | 0 | 40* |
+
+(*) plus the infinite trivial family at 4 | n. Note f̃₂ = 0 happens (n ∈ {2,3,4,7}
+in [2, 10⁴], nothing else to 10⁴): the "two-negatives" sector can be empty at small
+n — another positivity-flavoured scarcity, mirrored to f̃₁ on the negative axis.
+
+### 11.7 The graded data (new instruments, new laws)
+
+**Instruments.** `files/fsigned.c` (OpenMP, __int128; the Lemma H dictionary
+verbatim), validated four independent ways before production: naive census ↔
+window dictionary (S3, every triple, 2 ≤ n ≤ 200); C ↔ Python byte-identical
+([2,300], all 11 columns); C f, f_I, f_II ↔ blessed 10⁷ dataset (385 primes,
+0 mismatches); anchors f(1009), f(2521) with their Type splits. Datasets produced:
+`signed_census_1e4.csv` (every n ≤ 10⁴), `signed_p24_to_6e5.csv` (all 6,068 primes
+≡ 1 (mod 24) in [73, 6×10⁵] — the §10.2 population, graded), and
+`signed_floor_exemplars.csv` (the §10.2 floor primes to 8.6×10⁶ with same-window
+median partners). Analysis: `files/analyze_signed.py` (stdlib only).
+
+**F1 — the §10.2 law inverts.** Across the seven dyadic windows 2¹³–2¹⁹ of the
+prime band: every f₀ window minimum lands in the six square classes (7/7 — the
+§10.2 law again), while **no f₁ window minimum does (0/7**, base rate 0.24); the
+square classes' f₁ *floor* sits 13–35% above the other classes' floor in every
+window, and their median f₁ is 12–44% higher (e.g. window 2¹⁹: median 1086 vs 825).
+The channel-starved classes are the f₁-richest classes in every window measured.
+
+**F2 — the chirality see-saw.** Pooled within-window rank correlations over the
+6,068 primes: corr(f₀, f₁) = **−0.430**, corr(f₀, f₂) = −0.483,
+corr(f₁, f₂) = **+0.960**. The two signed grades move in lock-step (they draw on
+the same negative windows); both move *against* the positive grade. Starvation and
+richness are one variable seen from two sides.
+
+**F3 — floor primes are signed-rich outliers.** The §10.2 floor primes inside the
+band sit at f₁ percentile 92.6 (132721), 99.8 (471241), 99.9 (589681) of their
+windows while their f₀ percentile is 0.0. The exemplar table to 8.6×10⁶ (vs
+same-window median-f₀ partners):
+
+| p | mod 840 | role | f₀ | f₁ | f₂ | F̃ | f₁/f₀ | ρ = f₀/F̃ |
+|---|---|---|---|---|---|---|---|---|
+| 132721 | 1 | floor | 46 | 1257 | 959 | 2262 | 27.3 | 0.020 |
+| 139297 | 697 | median | 132 | 613 | 280 | 1025 | 4.6 | 0.129 |
+| 471241 | 1 | floor | 52 | 3036 | 2634 | 5722 | 58.4 | 0.009 |
+| 520369 | 409 | median | 156 | 876 | 508 | 1540 | 5.6 | 0.101 |
+| 589681 | 1 | floor | 67 | 3031 | 2652 | 5750 | 45.2 | 0.012 |
+| 904297 | 457 | median | 185 | 944 | 465 | 1594 | 5.1 | 0.116 |
+| 1202881 | 1 | floor | 88 | 2175 | 1716 | 3979 | 24.7 | 0.022 |
+| 1703089 | 409 | median | 216 | 880 | 405 | 1501 | 4.1 | 0.144 |
+| 2405881 | 121 | floor | 95 | 1734 | 1182 | 3011 | 18.3 | 0.032 |
+| 2831089 | 289 | median | 252 | 1289 | 771 | 2312 | 5.1 | 0.109 |
+| 5410441 | 1 | floor | 104 | 3434 | 2778 | 6316 | 33.0 | 0.016 |
+| 7702729 | 769 | median | 290 | 1461 | 895 | 2646 | 5.0 | 0.110 |
+| 8628481 | 1 | floor | 120 | 4496 | 3849 | 8465 | 37.5 | 0.014 |
+| 9644641 | 601 | median | 316 | 2169 | 1491 | 3976 | 6.9 | 0.079 |
+
+Every floor prime carries **more total solution mass F̃ than its median partner**
+(1.3×–3.7×) — the starvation is strictly a property of the positive window. The
+record prime 2521 reads f̃ = (9, 377, 307): F̃ = 693 solutions, 98.7% of them
+signed, Type III alone (177) dwarfing the entire positive count.
+
+**F4 — the positivity share.** ρ = f̃₀/F̃ over the band: median 0.103 (square
+classes 0.066, others 0.117), 5th percentile 0.035, minimum **0.0091 at
+p = 471241 ≡ 1 (mod 840)** — the same prime §10.2 already knew as a floor prime. A
+counterexample to ESC is a prime with ρ = 0 exactly: not a prime with few
+solutions, but one whose hundreds-to-thousands of solutions (F̃ has its own rising
+floor: per-window minima 421 → 1018 across 2¹³ → 2¹⁹) *all* miss one window of
+relative length ~B inside
+every class. The §5/§10 lognormal account of f₀ gains a denominator: f₀ is an
+anticorrelated ~3–25% share of a smooth, never-starved total.
+
+**F5 — proposed mechanism (rigorous at squares, statistical at square-class
+primes).** Lemma K shows the sign flip (d/a) ↦ −(d/a) under d ↦ −d converts the
+exact obstruction at squares into exact permission. For square-class *primes* the
+same Jacobi pressure operates statistically on every channel (§3.2): classes whose
+positive windows are sign-disfavoured have sign-favoured negative windows. The
+measured see-saw (F1–F3) is that pressure summed over channels. We state this as a
+mechanism hypothesis consistent with all data, proved here only at exact squares.
+
+**F6 — sequences.** Neither f̃₁ nor F̃ appears in OEIS (search 2026-06-12; the
+positive counts are A073101 / A192787 / A292581, and no signed-count sequence
+exists). First terms, n = 2, 3, 4, …:
+f̃₁: 0, 1, 0, 3, 5, 6, 3, 11, 11, 8, 12, 11, 16, 36, 21, 14, 33, 14, 32, 43, 28, …
+F̃: 1, 4, 3, 7, 15, 13, 15, 26, 29, 19, 40, 21, 41, 82, 61, 28, 77, 28, 83, 95, 62, …
+Median f̃₁/f̃₀ grows 1.38 → 1.74 → 1.88 across n ∈ [2,10²), [10²,10³), [10³,10⁴):
+the signed sectors widen slowly relative to the positive one (more x-rows, longer
+windows), yet stay within a small constant factor — the grades are siblings, not
+different orders of magnitude.
+
+### 11.8 Verdict
+
+Proved and machine-verified today, inside the project's framework: **Theorem G**
+(two signed terms always; complementary failure sets; the mod-4 duality),
+**Lemma H** (the signed kernel: same classes, windows are the grading; Type III),
+**Theorem J** (the negative domain is an exact mirror; F̃ is even; ESC over ℤ = the
+chirality statement), **Lemma K** (the square obstruction is positive-window-only),
+**Corollary L** (no channel system can flip chirality — the signed shortcut to ESC
+is closed by the project's own Theorem F), plus the small-n classification
+({2, 4} exceptional, n = 2 signless). New data: the graded census to 10⁴, the
+graded hard-class band to 6×10⁵, floor exemplars to 8.6×10⁶ — and three empirical
+laws: the inverted §10.2 law (F1), the see-saw (F2–F3), the ρ-share structure (F4).
+
+The conjecture itself: **open, unmoved — and better understood.** The signed
+extension does not crack the wall of §9; it *maps* it: every obstruction this
+project has proved (Lemma D, Theorem F, the K-criteria square-death) lives
+entirely in the positive windows, and the "missing" solutions of the starved
+classes are measurably present with the wrong sign. Erdős–Straus is the assertion
+that arithmetic never manages to polarize a prime completely — squares achieve
+exactly that polarization, primes provably cannot be distinguished from them by
+any finite congruence system (Theorem F), and yet, on all evidence to 10¹⁸ and in
+every graded measurement made today, they never even come close. The distance
+between those two sentences is the conjecture.
+
+### 11.9 Reproducibility (additions)
+
+- `files/verify_signed.py` — machine verification of §11 (536,988 assertions;
+  ~4 min; run: `python3 verify_signed.py`)
+- `files/fsigned.c` — graded census engine (build:
+  `gcc -O3 -march=native -fopenmp fsigned.c -o fsigned`; usage in header)
+- `files/census_ref.py` — Python reference implementation for C validation
+- `files/analyze_signed.py` — all §11.7 numbers (stdlib only)
+- `files/signed_census_1e4.csv`, `files/signed_p24_to_6e5.csv`,
+  `files/signed_floor_exemplars.csv` — the datasets behind F1–F6
+- Literature for §11: Jaroma, Crux Mathematicorum 30 (2004) 36–37; Wikipedia
+  "Erdős–Straus conjecture" §"Negative-number solutions" (the two documented
+  traces of the signed variant — no counting literature and no OEIS sequences
+  exist as of 2026-06-12); Elsholtz–Tao arXiv:1107.1010 (Prop 1.6, Rem 1.3);
+  Schinzel, Funct. Approx. Comment. Math. 28 (2000) 187–194; Mordell,
+  Diophantine Equations (1969), 287–290; Pomerance–Weingartner arXiv:2511.16817.
