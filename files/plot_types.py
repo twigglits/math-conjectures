@@ -155,11 +155,15 @@ ax.scatter(pct0[ok & ~sqb], pct1[ok & ~sqb], s=7, c="#1f77b4", alpha=0.25, lw=0,
            label="non-square classes")
 ax.scatter(pct0[ok & sqb], pct1[ok & sqb], s=9, c="#d62728", alpha=0.45, lw=0,
            label="six square classes")
-for fp in (132721, 471241, 589681):
+# fan the floor-prime callouts out vertically so the labels never overlap
+label_y = (0.955, 0.815, 0.675)
+for fp, ly in zip((132721, 471241, 589681), label_y):
     i = np.where(pb == fp)[0][0]
-    ax.annotate(f"p={fp}\n(§10.2 floor prime)", (pct0[i], pct1[i]),
-                xytext=(pct0[i] + 0.13, pct1[i] - 0.10), fontsize=8.5,
-                arrowprops=dict(arrowstyle="->", lw=0.8))
+    ax.annotate(f"p={fp}\n(REPORT 10.2 floor prime)", (pct0[i], pct1[i]),
+                xytext=(0.30, ly), textcoords="data",
+                fontsize=8.5, ha="left", va="center",
+                arrowprops=dict(arrowstyle="->", lw=0.8,
+                                connectionstyle="arc3,rad=0.12"))
 ax.set(xlabel="f₀ percentile within dyadic window", ylabel="f₁ percentile within dyadic window",
        title=f"The chirality see-saw (Spearman ρ = {rho:+.2f}):\n"
              "primes poor in positive solutions are rich in signed ones")
