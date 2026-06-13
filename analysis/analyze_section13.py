@@ -83,7 +83,7 @@ def window_id(p):
 # Load data
 # ──────────────────────────────────────────────────────────────────────────────
 print("Loading signed census to 6×10⁵…")
-pri = load("signed_p24_to_6e5.csv")
+pri = load("../data/signed_p24_to_6e5.csv")
 for r in pri:
     r['sq']  = r['n'] % 840 in SQ840
     r['F']   = r['f0'] + r['f1'] + r['f2']
@@ -505,7 +505,7 @@ print("="*72)
 print("F.  OEIS sequence data (neither exists in OEIS as of 2026-06-12)")
 print("="*72)
 print("\nLoading census [2, 10^4]…")
-cen = load("signed_census_1e4.csv")
+cen = load("../data/signed_census_1e4.csv")
 f1_seq  = [r['f1']          for r in cen if r['n'] <= 100]
 Ft_seq  = [r['f0']+r['f1']+r['f2'] for r in cen if r['n'] <= 100]
 ns      = [r['n'] for r in cen if r['n'] <= 100]

@@ -54,8 +54,8 @@ def detrend(p, f, classes):
         z[m] -= z[m].mean()
     return z, cmeans
 
-p7, f7 = load("hard_1e7_full.csv")                                # 24 classes, ≤ 10⁷
-p8, f8 = load("hard_1e8_2e8.csv")                                 # 6 sq classes
+p7, f7 = load("../data/hard_1e7_full.csv")                        # 24 classes, ≤ 10⁷
+p8, f8 = load("../data/hard_1e8_2e8.csv")                         # 6 sq classes
 print(f"fit sets: {len(p7):,} primes ≤ 10⁷ (24 classes), {len(p8):,} in [10⁸,2×10⁸] (6 classes)")
 
 # ---------- (1)+(2) the spectrum, 24-class science version on the 10⁷ set ----------

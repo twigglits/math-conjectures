@@ -17,7 +17,7 @@ def load(path):
     return out
 
 # ---------------- census [2, 10^4] ----------------
-cen = load('signed_census_1e4.csv')
+cen = load('../data/signed_census_1e4.csv')
 print("=== census n ∈ [2, 10⁴] ===")
 z1 = [r['n'] for r in cen if r['f1'] == 0]
 z2 = [r['n'] for r in cen if r['f2'] == 0]
@@ -36,7 +36,7 @@ print("first terms  f̃₁(n), n = 2..40:", [r['f1'] for r in cen if r['n'] <= 4
 print("first terms  F̃(n) , n = 2..40:", [r['f0']+r['f1']+r['f2'] for r in cen if r['n'] <= 40])
 
 # ---------------- the chirality experiment ----------------
-pri = load('signed_p24_to_6e5.csv')
+pri = load('../data/signed_p24_to_6e5.csv')
 for r in pri:
     r['sq'] = (r['n'] % 840) in SQ840
     r['F'] = r['f0'] + r['f1'] + r['f2']
@@ -111,7 +111,7 @@ for fp in [132721, 471241, 589681]:
 
 # ---------------- exemplars table ----------------
 print("\n=== §10.2 floor primes vs same-window median partners (graded) ===")
-ex = load('signed_floor_exemplars.csv')
+ex = load('../data/signed_floor_exemplars.csv')
 half = len(ex)//2
 print(f"{'p':>9} {'mod840':>6} {'role':>7} | {'f₀':>4} {'f₁':>6} {'f₂':>6} {'F̃':>7} "
       f"{'f₁/f₀':>6} {'ρ':>6} {'f₁III':>6}")

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """plot_residual.py — figures 6–7: the congruence spectrum of the residual and
-the adversarial-targeting validation.  Run AFTER residual_spectrum.py.
-    PYTHONNOUSERSITE=1 python3 plot_residual.py [fresh_slice.csv]
+the adversarial-targeting validation.  Run AFTER residual_spectrum.py,
+from the analysis/ directory (reads ../data/, writes ../plots/).
+    PYTHONNOUSERSITE=1 python3 plot_residual.py [../data/fresh_slice.csv]
 """
 import json, math, sys, os
 import numpy as np
@@ -9,7 +10,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-os.makedirs("plots", exist_ok=True)
+os.makedirs("../plots", exist_ok=True)
 
 def jacobi(a, n):
     a %= n; r = 1
@@ -25,7 +26,7 @@ def jacobi(a, n):
 QS = [11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
 
 # ---------- recompute the 24-class spectrum on the 10⁷ set ----------
-a = np.loadtxt("hard_1e7_full.csv", delimiter=",", skiprows=1)
+a = np.loadtxt("../data/hard_1e7_full.csv", delimiter=",", skiprows=1)
 p7, f7 = a[:, 0].astype(np.int64), a[:, 2] + a[:, 3]
 z = np.log(f7)
 w = np.floor(np.log2(p7) * 2).astype(int)
@@ -63,7 +64,7 @@ axb.set_xticks(range(len(QS))); axb.set_xticklabels(QS, fontsize=8)
 axb.set(xlabel="modulus q", ylabel="% of residual variance",
         title="Over half of the “Gaussian residue” is congruence ladder\n(82,887 primes ≤ 10⁷, window+class-840 detrended)")
 axb.legend(fontsize=9); axb.grid(alpha=0.25, axis="y")
-fig.tight_layout(); fig.savefig("plots/6_spectrum.png", dpi=135); plt.close(fig)
+fig.tight_layout(); fig.savefig("../plots/6_spectrum.png", dpi=135); plt.close(fig)
 
 # ---------- figure 7: targeting validation ----------
 eff = json.load(open("residual_effects.json"))
@@ -74,7 +75,7 @@ def score(p):
     for q in QS: s += EQ[q][(p % q).astype(int)]
     return s
 
-slices = [("hard_1e9_slice.csv", "blind test at 10⁹ (model fitted on p ≤ 2×10⁸)")]
+slices = [("../data/hard_1e9_slice.csv", "blind test at 10⁹ (model fitted on p ≤ 2×10⁸)")]
 if len(sys.argv) > 1 and os.path.exists(sys.argv[1]):
     slices.append((sys.argv[1], "fresh frontier at 2×10⁹ (computed after the model was frozen)"))
 fig, axes = plt.subplots(1, len(slices), figsize=(6.8 * len(slices), 6))
@@ -100,5 +101,5 @@ for ax, (path, label) in zip(axes, slices):
     ax.legend(fontsize=9, loc="upper left"); ax.grid(alpha=0.25, which="both")
 fig.suptitle("Adversarial targeting: a congruence-only score finds the floor primes "
              "for ~1% of the sweep cost", y=1.0)
-fig.tight_layout(); fig.savefig("plots/7_targeting.png", dpi=135); plt.close(fig)
-print("wrote plots/6_spectrum.png, plots/7_targeting.png")
+fig.tight_layout(); fig.savefig("../plots/7_targeting.png", dpi=135); plt.close(fig)
+print("wrote ../plots/6_spectrum.png, ../plots/7_targeting.png")

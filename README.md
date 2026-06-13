@@ -82,16 +82,16 @@ The project's rule: **no claim without a machine check, no engine without
 independent validation, no model without a blind test.**
 
 - **Validation-first computation.** Four engines written independently:
-  `files/fp.c` (C), `files/fpr.rs` (Rust), `files/fp.cu` (CUDA, RTX 5090),
-  `files/fsigned.c` (C/OpenMP, signed grading). Byte-identical outputs at five
+  `engines/fp.c` (C), `engines/fpr.rs` (Rust), `engines/fp.cu` (CUDA, RTX 5090),
+  `engines/fsigned.c` (C/OpenMP, signed grading). Byte-identical outputs at five
   scales ($2\times10^{3}$, $10^{6}$, $3.5\times10^{7}$, $10^{8}$, $2\times10^{9}$),
   against a blessed hand-validated reference, and against the independent published
   dataset of arXiv:2509.00128 on $22{,}662$ overlapping primes — zero mismatches
   anywhere.
 - **Machine-verified mathematics.** Every numbered claim in the proof-attempt and
   signed-extension sections is checked in exact arithmetic:
-  `files/verify_lemmas.py` ($8{,}719$ assertions, REPORT §9) and
-  `files/verify_signed.py` ($536{,}988$ assertions, REPORT §11).
+  `analysis/verify_lemmas.py` ($8{,}719$ assertions, REPORT §9) and
+  `analysis/verify_signed.py` ($536{,}988$ assertions, REPORT §11).
 - **Blind prediction protocol.** Statistical models are fitted on small scales,
   frozen, and tested on uncomputed ranges (fits $\le 2\times10^{8}$; tests at
   $10^{9}$ and $2\times10^{9}$, stated in the transcript before the runs finished).
@@ -106,7 +106,7 @@ independent validation, no model without a blind test.**
 
 ## Findings
 
-Full details and tables live in [REPORT.md](REPORT.md); figures in `files/plots/`.
+Full details and tables live in [REPORT.md](REPORT.md); figures in `plots/`.
 
 <div align="justify">
 
@@ -114,13 +114,13 @@ Full details and tables live in [REPORT.md](REPORT.md); figures in `files/plots/
 $f, f_I, f_{II} > 0$ for all $278{,}570$ computed hard-class primes to
 $2.01\times10^{9}$; the floor grows as ${\sim}(\ln p)^{3.4 \pm 0.2}$ at the same
 exponent as the median; $\sigma(\ln f)$ shrinks $0.30 \to 0.144$ across five
-decades. Code: `files/fp.cu`, `files/fpr.rs`, `files/analyze_final.py`,
-`files/analyze_session2.py`; data `files/hard_*.csv`, `files/fresh_2e9_slice.csv`;
+decades. Code: `engines/fp.cu`, `engines/fpr.rs`, `analysis/analyze_floor.py`,
+`analysis/analyze_octave.py`; data `data/hard_*.csv`, `data/fresh_2e9_slice.csv`;
 REPORT §2, §10, §12.5.
 
 </div>
 
-![The f(p) landscape](files/plots/1_landscape.png)
+![The f(p) landscape](plots/1_landscape.png)
 
 <div align="justify">
 
@@ -130,8 +130,8 @@ window minima are pure order statistics. Three blind tests hit:
 $[175, 225] \to 191$ ($2\times10^{8}$), $345 \to 347$ ($10^{9}$), median
 $681 \to 681$ exact and $[351, 404] \to 405$ ($2\times10^{9}$). The closest
 published work fits no distribution to $f(p)$, so this law appears to be unrecorded.
-Code: `files/analyze_session2.py`, `files/target_frontier.py`; REPORT §5,
-§10.3–10.4, §12.5; figure `files/plots/5_lognormal.png`.
+Code: `analysis/analyze_octave.py`, `analysis/target_frontier.py`; REPORT §5,
+§10.3–10.4, §12.5; figure `plots/5_lognormal.png`.
 
 </div>
 
@@ -143,11 +143,11 @@ channels, and the six square classes are exactly the classes with none. Within
 $p \equiv 1 \pmod{24}$, mean $f_0$-percentile climbs a quadratic-residue ladder
 ($0.215 / 0.526 / 0.724$ for QR-at-both-$5,7$ / NR-at-one / NR-at-both) — and the
 one-negative count $f_1$ descends the same ladder backwards. REPORT §3, §10.2,
-§11.7; figure `files/plots/2_fingerprint.png`.
+§11.7; figure `plots/2_fingerprint.png`.
 
 </div>
 
-![The class fingerprint and its inversion](files/plots/2_fingerprint.png)
+![The class fingerprint and its inversion](plots/2_fingerprint.png)
 
 <div align="justify">
 
@@ -158,7 +158,7 @@ re-proved in full via two Jacobi-symbol facts (Lemma D); the $\varepsilon$-cover
 theorem (Theorem E: coverage $1-\varepsilon$ costs $\exp(\varepsilon^{-2})$
 identities); and Theorem F: **no finite channel system covers any class containing
 squares** — so the six square classes can never be closed by identities, covering
-congruences, or the circle method. Code: `files/verify_lemmas.py`.
+congruences, or the circle method. Code: `analysis/verify_lemmas.py`.
 
 </div>
 
@@ -177,13 +177,13 @@ law *inverts* in the signed sector ($f_1$ window minima land in square classes
 $0/7$ vs $7/7$ for $f_0$): **channel starvation is displacement of solution mass
 into the other chirality, not absence** — $\tilde f(2521) = (9, 377, 307)$. Counting
 signed representations appears to be entirely unstudied (no literature, no OEIS
-sequence as of 2026-06). Code: `files/verify_signed.py`, `files/fsigned.c`,
-`files/census_ref.py`, `files/analyze_signed.py`; data `files/signed_*.csv`;
-figures `files/plots/3_seesaw.png`, `files/plots/4_strata.png`.
+sequence as of 2026-06). Code: `analysis/verify_signed.py`, `engines/fsigned.c`,
+`engines/census_ref.py`, `analysis/analyze_signed.py`; data `data/signed_*.csv`;
+figures `plots/3_seesaw.png`, `plots/4_strata.png`.
 
 </div>
 
-![The chirality see-saw](files/plots/3_seesaw.png)
+![The chirality see-saw](plots/3_seesaw.png)
 
 <div align="justify">
 
@@ -197,8 +197,8 @@ remaining ≈42% carries the factorization statistics of the shifted
 integers $4pm+1$. Maximally hostile congruence reaches only **10%** of the depth
 a counterexample needs ($\Delta\ln f = -0.66$ of $-6.41$): a counterexample would
 have to be a large-prime factorization conspiracy, not a congruence event. Code:
-`files/residual_spectrum.py` (writes `files/residual_effects.json`); figure
-`files/plots/6_spectrum.png`.
+`analysis/residual_spectrum.py` (writes `analysis/residual_effects.json`); figure
+`plots/6_spectrum.png`.
 
 </div>
 
@@ -212,11 +212,11 @@ its predicted bottom-1% — at $2\times10^{9}$ it found the exact floor
 the sweep cost. This is the search instrument for ranges beyond $10^{18}$ where
 exhaustive verification is impossible; its honest limit: the unexplained 42%
 decides individual primes, so targeting compresses a search but only enumeration
-certifies. Code: `files/target_frontier.py`, `files/plot_residual.py`.
+certifies. Code: `analysis/target_frontier.py`, `analysis/plot_residual.py`.
 
 </div>
 
-![Adversarial targeting](files/plots/7_targeting.png)
+![Adversarial targeting](plots/7_targeting.png)
 
 <div align="justify">
 
@@ -234,7 +234,7 @@ can have K1/K2 fire. (iv) $\min\tilde{F} \sim (\ln p)^{2.24}$ vs $\min f_0 \sim
 congruence ladder drives $f_0$ and $f_1$ in exactly opposite directions at every
 tested modulus. New blind prediction:
 $\min f \in [439, 499]$ over $[10^{10}, 10^{10}+10^7]$, median $\approx 852$.
-Code: `files/analyze_section13.py`.
+Code: `analysis/analyze_section13.py`.
 
 </div>
 
@@ -291,38 +291,30 @@ positive window always gets its share.
 ```text
 .
 ├── README.md                     this file
-├── REPORT.md                     the full study (§0–§12)
+├── REPORT.md                     the full study (§0–§13)
 ├── TRANSCRIPT.md                 original phone-session log that started it
 ├── LICENSE
-├── files/                        engines, analyses, datasets, figures
+├── engines/                      solution-counting engines (cross-validated)
 │   ├── fp.c                      f(p) counter — C reference
 │   ├── fpr.rs                    f(p) counter — Rust (multi-threaded, std-only)
 │   ├── fp.cu                     f(p) counter — CUDA
 │   ├── fsigned.c                 signed graded-census engine (§11)
-│   ├── census_ref.py             Python reference for the signed census
+│   └── census_ref.py             Python reference for the signed census
+├── analysis/                     verification, analyses, figure generators
 │   ├── verify_lemmas.py          machine verification of §9
 │   ├── verify_signed.py          machine verification of §11
-│   ├── residual_spectrum.py      §12 spectrum
+│   ├── analyze_floor.py          §2/§10 floor growth + concentration law
+│   ├── analyze_octave.py         §10 merge / validate / law / octave
+│   ├── analyze_signed.py         §11 signed-extension numbers
+│   ├── analyze_section13.py      §13 ρ / Type III / K-criteria
+│   ├── residual_spectrum.py      §12 spectrum (writes residual_effects.json)
 │   ├── target_frontier.py        §12 adversarial targeting score
-│   ├── analyze_final.py          analyses
-│   ├── analyze_session2.py
-│   ├── analyze_signed.py
-│   ├── plot_types.py             figure generators
-│   ├── plot_residual.py
-│   ├── run_segments.sh           segmented sweep driver
-│   ├── residual_effects.json
-│   ├── plots/                    the figure atlas (1–7, PNG)
-│   └── *.csv                     datasets (per-prime counts; graded census)
-├── prime_solutions/              Rust/CUDA crate (cuda-oxide)
-│   ├── Cargo.toml
-│   ├── Cargo.lock
-│   ├── rust-toolchain.toml       pinned nightly
-│   └── src/main.rs
-└── bend/                         HVM/Bend port experiment
-    ├── fp.bend
-    ├── test.bend
-    ├── temp_test.bend
-    └── instructions_bend_run.md
+│   ├── plot_types.py             figures 1–5
+│   ├── plot_residual.py          figures 6–7
+│   └── residual_effects.json     fitted congruence effects (q ≤ 97)
+├── data/                         datasets: per-prime counts + graded census
+│   └── *.csv, *.result           (hard_*, fresh_*, signed_*, esc2025, …)
+└── plots/                        the figure atlas (1–7, PNG)
 ```
 
 <div align="justify">
@@ -336,19 +328,19 @@ git-ignored and not shown; see `.gitignore`.)
 
 | Path | What it is |
 | --- | --- |
-| `REPORT.md` | The full study: §0–§8 landscape + laws, §9 proof attempt, §10 datasets, §11 signed extension, §12 residual + frontier |
+| `REPORT.md` | The full study: §0–§8 landscape + laws, §9 proof attempt, §10 datasets, §11 signed extension, §12 residual + frontier, §13 ρ / Type III / K-criteria |
 | `TRANSCRIPT.md` | The original phone-session log that started the project |
-| `files/fp.c`, `files/fpr.rs`, `files/fp.cu` | The positive-world engines (C / Rust / CUDA) |
-| `files/fsigned.c`, `files/census_ref.py` | The signed-grading engine + Python reference |
-| `files/verify_lemmas.py`, `files/verify_signed.py` | Machine verification of §9 / §11 ($8{,}719$ / $536{,}988$ assertions) |
-| `files/residual_spectrum.py`, `files/target_frontier.py` | §12: the spectrum + the adversarial score |
-| `files/analyze_*.py`, `files/plot_*.py` | Analyses and the figure atlas (`files/plots/1–7`) |
-| `files/hard_*.csv`, `files/fresh_2e9_slice.csv`, `files/signed_*.csv` | The datasets (per-prime counts; graded census) |
+| `engines/fp.c`, `engines/fpr.rs`, `engines/fp.cu` | The positive-world engines (C / Rust / CUDA) |
+| `engines/fsigned.c`, `engines/census_ref.py` | The signed-grading engine + Python reference |
+| `analysis/verify_lemmas.py`, `analysis/verify_signed.py` | Machine verification of §9 / §11 ($8{,}719$ / $536{,}988$ assertions) |
+| `analysis/residual_spectrum.py`, `analysis/target_frontier.py` | §12: the spectrum + the adversarial score |
+| `analysis/analyze_*.py`, `analysis/plot_*.py` | Analyses and the figure atlas (`plots/1–7`) |
+| `data/hard_*.csv`, `data/fresh_2e9_slice.csv`, `data/signed_*.csv` | The datasets (per-prime counts; graded census) |
 
 <div align="justify">
 
 Build/run commands are in REPORT §8, §11.9, §12.7. (Plotting note: on this machine
-run plot scripts with `PYTHONNOUSERSITE=1` — see `files/plot_types.py` header.)
+run plot scripts with `PYTHONNOUSERSITE=1` — see `analysis/plot_types.py` header.)
 
 </div>
 
@@ -366,11 +358,11 @@ comment of each source file.
 
 | Tool | Used for | Install (Debian/Ubuntu) |
 | --- | --- | --- |
-| C compiler (`gcc`, OpenMP) | `files/fp.c`, `files/fsigned.c` | `sudo apt install build-essential` |
-| Python ≥ 3.8 | all `files/*.py` analyses & verification | `sudo apt install python3 python3-pip` |
+| C compiler (`gcc`, OpenMP) | `engines/fp.c`, `engines/fsigned.c` | `sudo apt install build-essential` |
+| Python ≥ 3.8 | `analysis/*.py`, `engines/census_ref.py` | `sudo apt install python3 python3-pip` |
 | `numpy`, `matplotlib` | the plotting / spectrum scripts only | `pip install numpy matplotlib` |
-| Rust (nightly) | `files/fpr.rs`, `prime_solutions/` | [rustup.rs](https://rustup.rs) |
-| CUDA toolkit (`nvcc`) | `files/fp.cu` (needs an NVIDIA GPU) | NVIDIA CUDA Toolkit ≥ 12.0 |
+| Rust (nightly) | `engines/fpr.rs` | [rustup.rs](https://rustup.rs) |
+| CUDA toolkit (`nvcc`) | `engines/fp.cu` (needs an NVIDIA GPU) | NVIDIA CUDA Toolkit ≥ 12.0 |
 
 <div align="justify">
 
@@ -391,43 +383,48 @@ pip install numpy matplotlib
 
 ```bash
 # C (single-threaded reference)
-gcc -O3 -march=native files/fp.c -o files/fp
-./files/fp 5 2000 0 fp_small.csv          # pmin pmax mode(0=all,1=p≡1 mod24) out.csv
+gcc -O3 -march=native engines/fp.c -o engines/fp
+./engines/fp 5 2000 0 fp_small.csv         # pmin pmax mode(0=all,1=p≡1 mod24) out.csv
 
 # Rust (multi-threaded, std-only — no crates)
-rustc -C opt-level=3 -C target-cpu=native files/fpr.rs -o files/fpr
-./files/fpr 5 2000 0 rs_small.csv 4        # ...last arg = threads
-diff rs_small.csv fp_small.csv             # must be empty
+rustc -C opt-level=3 -C target-cpu=native engines/fpr.rs -o engines/fpr
+./engines/fpr 5 2000 0 rs_small.csv 4       # ...last arg = threads
+diff rs_small.csv data/fp_small.csv         # must be empty
 
 # CUDA (needs an NVIDIA GPU)
-nvcc -O3 -arch=compute_80 files/fp.cu -o files/fpcuda
-./files/fpcuda 5 2000 0 cuda_small.csv
+nvcc -O3 -arch=compute_80 engines/fp.cu -o engines/fpcuda
+./engines/fpcuda 5 2000 0 cuda_small.csv
 ```
 
 ### Signed-world graded census (REPORT §11)
 
 ```bash
-gcc -O3 -march=native -fopenmp files/fsigned.c -o files/fsigned
-./files/fsigned 2 200 all > census.csv     # LO HI all|pMOD:R
+gcc -O3 -march=native -fopenmp engines/fsigned.c -o engines/fsigned
+./engines/fsigned 2 200 all > census.csv    # LO HI all|pMOD:R
 ```
 
 ### Analyses, verification, and figures
 
 ```bash
-# machine verification of the proof attempts (§9 / §11)
-python3 files/verify_lemmas.py
-python3 files/verify_signed.py
+# machine verification of the proof attempts (§9 / §11) — read no data files
+python3 analysis/verify_lemmas.py
+python3 analysis/verify_signed.py
 
-# regenerate the figure atlas (files/plots/1–7) from the CSVs
-PYTHONNOUSERSITE=1 python3 files/plot_types.py
-PYTHONNOUSERSITE=1 python3 files/plot_residual.py
-PYTHONNOUSERSITE=1 python3 files/residual_spectrum.py
+# the analyses and figures read ../data and write ../plots, so run them
+# from inside analysis/
+cd analysis
+python3 analyze_floor.py                    # §2/§10 floor + cross-validation
+python3 analyze_signed.py                   # §11 signed-extension numbers
+python3 analyze_section13.py                # §13 ρ / Type III / K-criteria
+PYTHONNOUSERSITE=1 python3 residual_spectrum.py   # §12; writes residual_effects.json
+PYTHONNOUSERSITE=1 python3 plot_types.py          # figures 1–5 → ../plots
+PYTHONNOUSERSITE=1 python3 plot_residual.py       # figures 6–7 → ../plots
 ```
 
 <div align="justify">
 
 (`PYTHONNOUSERSITE=1` is only needed on machines where a user-site install shadows
-the venv `matplotlib` — see the `files/plot_types.py` header.)
+the venv `matplotlib` — see the `analysis/plot_types.py` header.)
 
 </div>
 

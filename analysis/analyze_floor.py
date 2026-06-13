@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Final 10^7 analysis: merge segments, cross-validate, concentration law, exponents.
-Self-contained stdlib-only. Run from files/ directory."""
+"""10^7 floor analysis: cross-validate, square-class concentration law, floor/median
+exponents, record-low sequence. Self-contained stdlib-only.
+Run from the analysis/ directory (reads ../data/)."""
 import csv, glob, math, os, sys, collections
 
 SQ = {1, 121, 169, 289, 361, 529}
@@ -10,8 +11,8 @@ def load_ours():
     # the per-segment files (hard_1e6 + hard_seg2..6) were removed in cleanup —
     # their union is exactly hard_1e7_full.csv (verified row-for-row; git
     # history @7a4e2b6 has the originals)
-    srcs = (['hard_1e7_full.csv'] if os.path.exists('hard_1e7_full.csv')
-            else ['hard_1e6.csv'] + sorted(glob.glob('hard_seg*.csv')))
+    srcs = (['../data/hard_1e7_full.csv'] if os.path.exists('../data/hard_1e7_full.csv')
+            else ['../data/hard_1e6.csv'] + sorted(glob.glob('../data/hard_seg*.csv')))
     for fn in srcs:
         if not os.path.exists(fn): continue
         with open(fn) as f:
@@ -24,7 +25,7 @@ def load_ours():
 
 def cross_validate(ps, rows):
     theirs = {}
-    with open('esc2025_fp_to_3.5e7.csv') as f:
+    with open('../data/esc2025_fp_to_3.5e7.csv') as f:
         for r in csv.DictReader(f):
             theirs[int(r['Prime'])] = (int(r['Type-1']), int(r['Type-2']))
     bad = gaps = n = 0

@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """plot_types.py — the visual atlas of the Erdős–Straus solution counts.
 
-Five figures into files/plots/ :
+Five figures into ../plots/ :
   1_landscape.png   f(p), Type I, Type II over five decades (73 → 1.01×10⁹)
   2_fingerprint.png the mod-840 class fingerprint of f₀ vs f₁ (the inversion)
   3_seesaw.png      the chirality see-saw: f₀ vs f₁ in-window percentiles
   4_strata.png      mechanism census: positive strata vs signed strata (Type III)
   5_lognormal.png   the actual law: lognormal collapse + the σ concentration march
 
-Inputs: hard_1e7_full.csv, hard_1e8_2e8.csv, hard_1e9_slice.csv (p,ford,fI,fII),
-        signed_p24_to_6e5.csv (graded, see fsigned.c header).
+Inputs (../data/): hard_1e7_full.csv, hard_1e8_2e8.csv, hard_1e9_slice.csv
+        (p,ford,fI,fII), signed_p24_to_6e5.csv (graded, see fsigned.c header).
+Run from the analysis/ directory.
 
 NOTE on this machine: the apt matplotlib needs the apt numpy; run as
     PYTHONNOUSERSITE=1 python3 plot_types.py
@@ -23,7 +24,7 @@ import matplotlib.pyplot as plt
 
 SQ840 = {1, 121, 169, 289, 361, 529}
 SQROOT = {1: "1²", 121: "11²", 169: "13²", 289: "17²", 361: "19²", 529: "23²"}
-os.makedirs("plots", exist_ok=True)
+os.makedirs("../plots", exist_ok=True)
 
 def load_pos(path):
     a = np.loadtxt(path, delimiter=",", skiprows=1)
@@ -35,14 +36,14 @@ def load_signed(path):
     g = lambda k: np.array([float(r[k]) for r in rows])
     return {k: g(k) for k in rows[0].keys()}
 
-p1, f1_, fI1, fII1 = load_pos("hard_1e7_full.csv")
-p2, f2_, fI2, fII2 = load_pos("hard_1e8_2e8.csv")
-p3, f3_, fI3, fII3 = load_pos("hard_1e9_slice.csv")
+p1, f1_, fI1, fII1 = load_pos("../data/hard_1e7_full.csv")
+p2, f2_, fI2, fII2 = load_pos("../data/hard_1e8_2e8.csv")
+p3, f3_, fI3, fII3 = load_pos("../data/hard_1e9_slice.csv")
 P  = np.concatenate([p1, p2, p3])
 F  = np.concatenate([f1_, f2_, f3_])
 FI = np.concatenate([fI1, fI2, fI3])
 FII = np.concatenate([fII1, fII2, fII3])
-S = load_signed("signed_p24_to_6e5.csv")
+S = load_signed("../data/signed_p24_to_6e5.csv")
 
 def binstats(p, v, width=0.5, lo=11, hi=30.5, minn=25):
     """per log2-bin: (geometric centre, median, min) for bins with ≥ minn points"""
@@ -83,7 +84,7 @@ ax.set(xscale="log", yscale="log", xlabel="p", ylabel="solution count",
              "a rising sheet whose floor tracks its median")
 ax.legend(loc="upper left", fontsize=9, framealpha=0.9)
 ax.grid(alpha=0.25, which="both")
-fig.tight_layout(); fig.savefig("plots/1_landscape.png", dpi=135); plt.close(fig)
+fig.tight_layout(); fig.savefig("../plots/1_landscape.png", dpi=135); plt.close(fig)
 
 # ---------------------------------------------------------------- in-window percentiles (band)
 def percentiles_in_windows(pvals, v):
@@ -142,7 +143,7 @@ ax.set(xlabel="p mod 840, sorted by f₀ richness — third label row: which of 
        title="The class fingerprint and its inversion (6,068 primes, 73 ≤ p ≤ 6×10⁵):\n"
              "f₀ climbs the quadratic-residue ladder, f₁ descends it — starvation is chirality displacement")
 ax.legend(fontsize=10, loc="center right"); ax.grid(alpha=0.25, axis="y")
-fig.tight_layout(); fig.savefig("plots/2_fingerprint.png", dpi=135); plt.close(fig)
+fig.tight_layout(); fig.savefig("../plots/2_fingerprint.png", dpi=135); plt.close(fig)
 
 # ---------------------------------------------------------------- figure 3
 def spearman(x, y):
@@ -168,7 +169,7 @@ ax.set(xlabel="f₀ percentile within dyadic window", ylabel="f₁ percentile wi
        title=f"The chirality see-saw (Spearman ρ = {rho:+.2f}):\n"
              "primes poor in positive solutions are rich in signed ones")
 ax.legend(fontsize=10, loc="lower left"); ax.grid(alpha=0.25)
-fig.tight_layout(); fig.savefig("plots/3_seesaw.png", dpi=135); plt.close(fig)
+fig.tight_layout(); fig.savefig("../plots/3_seesaw.png", dpi=135); plt.close(fig)
 
 # ---------------------------------------------------------------- figure 4
 fig, (axl, axr) = plt.subplots(1, 2, figsize=(13.5, 6))
@@ -188,7 +189,7 @@ axr.set(xscale="log", yscale="log", xlabel="p", ylabel="median count",
         title="Signed world (grade 1): three mechanisms —\nthe forbidden stratum is the largest")
 axr.legend(fontsize=9); axr.grid(alpha=0.25, which="both")
 fig.suptitle("Mechanism census across the strata", y=1.0)
-fig.tight_layout(); fig.savefig("plots/4_strata.png", dpi=135); plt.close(fig)
+fig.tight_layout(); fig.savefig("../plots/4_strata.png", dpi=135); plt.close(fig)
 
 # ---------------------------------------------------------------- figure 5
 fig, (axa, axb) = plt.subplots(1, 2, figsize=(13.5, 5.6))
@@ -212,6 +213,6 @@ axb.plot(cents, sigs, "o-", c="#444", lw=2)
 axb.set(xscale="log", xlabel="p (window centre)", ylabel="σ(ln f) per window",
         title="…and it concentrates: σ(ln f) falls as p grows\n(the sheet tightens — a counterexample needs ln f = −∞)")
 axb.grid(alpha=0.25, which="both")
-fig.tight_layout(); fig.savefig("plots/5_lognormal.png", dpi=135); plt.close(fig)
+fig.tight_layout(); fig.savefig("../plots/5_lognormal.png", dpi=135); plt.close(fig)
 
-print("wrote plots/1_landscape.png .. plots/5_lognormal.png")
+print("wrote ../plots/1_landscape.png .. ../plots/5_lognormal.png")

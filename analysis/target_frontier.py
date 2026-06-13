@@ -8,11 +8,11 @@ are where the conjecture is thinnest, so a search that enumerates only the
 bottom of the score order gets the floor at a fraction of the sweep cost.
 
 Validation protocol (blind): the model never saw p > 2×10⁸.
-  test 1: hard_1e9_slice.csv  (14,955 primes in [10⁹, 1.01×10⁹], known truth)
-  test 2: fresh_2e9_slice.csv (the new GPU run at [2×10⁹, 2.01×10⁹]) — pass
+  test 1: ../data/hard_1e9_slice.csv  (14,955 primes in [10⁹, 1.01×10⁹], known truth)
+  test 2: ../data/fresh_2e9_slice.csv (the new GPU run at [2×10⁹, 2.01×10⁹]) — pass
           the filename as argv[1] when it exists.
 
-Run: PYTHONNOUSERSITE=1 python3 target_frontier.py [slice.csv]
+Run from analysis/: PYTHONNOUSERSITE=1 python3 target_frontier.py [../data/slice.csv]
 """
 import json, math, sys
 import numpy as np
@@ -69,6 +69,6 @@ def evaluate(path, label):
           f"~{100*k1/n:.1f}% of sweep cost) finds f = {found} vs true min {int(f.min())}")
     return p, f, s
 
-evaluate("hard_1e9_slice.csv", "BLIND TEST at 10⁹ (model never saw any p > 2×10⁸)")
+evaluate("../data/hard_1e9_slice.csv", "BLIND TEST at 10⁹ (model never saw any p > 2×10⁸)")
 if len(sys.argv) > 1:
     evaluate(sys.argv[1], f"FRESH FRONTIER {sys.argv[1]}")
